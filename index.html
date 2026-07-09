@@ -236,6 +236,18 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
 .sticky-cta.show{transform:none}
 @media(max-width:700px){.sticky-cta{display:block}footer{padding-bottom:100px}}
 
+/* ===== cookie banner ===== */
+.cookie{position:fixed;left:14px;bottom:14px;z-index:70;max-width:380px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);transform:translateY(20px);opacity:0;pointer-events:none;transition:transform .5s var(--ease),opacity .5s var(--ease)}
+.cookie.show{transform:none;opacity:1;pointer-events:auto}
+.cookie p{font-size:13.5px;color:var(--ink-soft);margin-bottom:14px}
+.cookie p b{color:var(--ink)}
+.cookie-actions{display:flex;gap:10px}
+.cookie-accept{flex:1;background:var(--violet);color:#fff;border:0;border-radius:100px;padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s}
+.cookie-accept:hover{transform:translateY(-2px);box-shadow:0 10px 22px -8px rgba(121,54,118,.5)}
+.cookie-decline{background:none;border:1.5px solid var(--line);border-radius:100px;padding:11px 18px;font-weight:600;font-size:14px;color:var(--ink-soft);cursor:pointer;transition:border-color .25s}
+.cookie-decline:hover{border-color:var(--lavender)}
+@media(max-width:700px){.cookie{left:10px;right:10px;bottom:10px;max-width:none}.cookie.push-up{bottom:76px}}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .blur-in{filter:none;opacity:1;transform:none}
@@ -518,6 +530,14 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
 
 <a class="sticky-cta" id="sticky-cta" href="#join">Занять место — 777 ₽</a>
 
+<div class="cookie" id="cookie" role="dialog" aria-label="Использование cookie">
+  <p><b>Мы используем cookie.</b> Они помогают сайту работать корректно и анализировать посещаемость. Оставаясь на сайте, вы соглашаетесь с обработкой файлов cookie.</p>
+  <div class="cookie-actions">
+    <button class="cookie-accept" id="cookie-accept" type="button">Принять</button>
+    <button class="cookie-decline" id="cookie-decline" type="button">Отклонить</button>
+  </div>
+</div>
+
 <script>
 (function(){
   "use strict";
@@ -528,6 +548,29 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
 
   document.getElementById("year").textContent = new Date().getFullYear();
 
+  // cookie consent
+  var cookieBox = document.getElementById("cookie");
+  function consentGet(){
+    var m = document.cookie.match(/(?:^|; )cookie_consent=([^;]+)/);
+    return m ? m[1] : null;
+  }
+  function consentSet(val){
+    var d = new Date(); d.setFullYear(d.getFullYear() + 1);
+    document.cookie = "cookie_consent=" + val + "; expires=" + d.toUTCString() + "; path=/; SameSite=Lax";
+  }
+  if (!consentGet()) {
+    window.setTimeout(function(){ cookieBox.classList.add("show"); }, 1600);
+  }
+  document.getElementById("cookie-accept").addEventListener("click", function(){
+    consentSet("accepted");
+    cookieBox.classList.remove("show");
+    // сюда подключается аналитика (Метрика/GA) после согласия
+  });
+  document.getElementById("cookie-decline").addEventListener("click", function(){
+    consentSet("declined");
+    cookieBox.classList.remove("show");
+  });
+
   // topbar shadow
   var topbar = document.getElementById("topbar");
   var sticky = document.getElementById("sticky-cta");
@@ -535,7 +578,9 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
   window.addEventListener("scroll", function(){
     topbar.classList.toggle("scrolled", window.scrollY > 8);
     var joinTop = join.getBoundingClientRect().top;
-    sticky.classList.toggle("show", window.scrollY > 500 && joinTop > window.innerHeight * 0.6);
+    var showSticky = window.scrollY > 500 && joinTop > window.innerHeight * 0.6;
+    sticky.classList.toggle("show", showSticky);
+    cookieBox.classList.toggle("push-up", showSticky);
   }, {passive:true});
 
   // scroll reveal
