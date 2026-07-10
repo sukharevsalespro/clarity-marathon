@@ -1,4 +1,4 @@
 # Закрыть журнал лидов от прямого скачивания
-<Files ~ "^(leads\.csv|lead-secrets\.php)$">
+<Files ~ "^(leads\.csv|payments\.csv|lead-secrets\.php)$">
     Require all denied
 </Files>
