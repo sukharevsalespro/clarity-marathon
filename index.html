@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Марафон «Ясность мышления» — 13 дней практики</title>
-<meta name="description" content="Онлайн-марафон «Ясность мышления»: 13 дней по 7–10 минут, доступ навсегда, 777 ₽.">
+<meta name="description" content="Онлайн-марафон «Ясность мышления»: 13 дней по 7–10 минут, доступ навсегда, три тарифа от 777 ₽.">
 <meta property="og:title" content="Марафон «Ясность мышления»">
 <meta property="og:description" content="13 дней короткой практики, чтобы вернуть внутренний фокус. Доступ навсегда.">
 <meta property="og:type" content="website">
@@ -126,6 +126,7 @@ section{padding:96px 0}
 .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
 .sec-head h2{font-size:clamp(26px,3.6vw,42px);letter-spacing:-.01em;margin-bottom:16px}
 .sec-head p{font-size:17px;color:var(--ink-soft)}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
 @media(max-width:700px){section{padding:64px 0}}
 
 /* scroll reveal */
@@ -215,14 +216,6 @@ section{padding:96px 0}
 /* ===== form / pricing ===== */
 .cta-wrap{background:linear-gradient(150deg,var(--violet-deep),var(--violet) 55%,#8f4a8c);border-radius:36px;padding:64px;color:#fff;position:relative;overflow:hidden}
 .cta-wrap::before{content:"";position:absolute;width:60%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(217,164,65,.28),transparent 70%);top:-30%;right:-15%;filter:blur(40px);animation:drift 20s ease-in-out infinite alternate}
-.cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;position:relative;z-index:1}
-.cta-info h2{font-size:clamp(26px,3.4vw,38px);margin-bottom:16px}
-.cta-info>p{font-size:16px;opacity:.85;margin-bottom:28px}
-.cta-price{font-family:'Unbounded';font-size:48px;font-weight:700;color:var(--gold);margin-bottom:6px}
-.cta-price small{font-size:16px;color:#fff;opacity:.7;font-family:'Onest';font-weight:400}
-.cta-list{list-style:none;display:grid;gap:11px;font-size:14.5px;margin-top:22px}
-.cta-list li{display:flex;gap:10px;opacity:.92}
-.cta-list li::before{content:"✓";color:var(--gold)}
 .form-card{background:rgba(255,255,255,.98);border-radius:var(--r-lg);padding:36px;color:var(--ink)}
 .form-card h3{font-size:20px;margin-bottom:22px;font-family:'Unbounded';font-weight:600}
 .field{margin-bottom:16px}
@@ -231,11 +224,62 @@ section{padding:96px 0}
 .field input:focus,.field select:focus{outline:none;border-color:var(--lavender);box-shadow:0 0 0 4px rgba(176,126,196,.15)}
 .form-card .btn-primary{width:100%;justify-content:center;margin-top:8px}
 .form-status{font-size:13.5px;margin-top:12px;color:var(--violet);min-height:18px}
-.form-legal{font-size:12px;color:var(--ink-soft);margin-top:10px}
-@media(max-width:900px){.cta-wrap{padding:36px 22px;border-radius:26px}.cta-grid{grid-template-columns:1fr;gap:36px}.form-card{padding:26px 20px}}
+@media(max-width:900px){.cta-wrap{padding:36px 22px;border-radius:26px}.form-card{padding:26px 20px}}
+
+/* ===== cta-final ===== */
+.cta-final{text-align:center;max-width:720px;margin:0 auto}
+.cta-final h2{margin-bottom:14px}
+.cta-final p{font-size:16px;opacity:.85;margin-bottom:28px}
+
+/* ===== tariffs ===== */
+.tariffs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;align-items:stretch;margin-bottom:44px}
+.tariff{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:36px 28px 28px;display:flex;flex-direction:column;transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease)}
+.tariff:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+.tariff.featured{border-color:var(--lavender)}
+.tariff.is-selected{border-color:var(--violet);box-shadow:var(--shadow)}
+.tariff-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(120deg,var(--violet),var(--violet-deep));color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:7px 18px;border-radius:100px;box-shadow:0 8px 18px -6px rgba(121,54,118,.5);white-space:nowrap}
+.tariff h3{font-size:19px;margin-bottom:4px}
+.tariff-subtitle{font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+.tariff-desc{font-size:14.5px;color:var(--ink-soft);margin-bottom:20px}
+.tariff-price{font-family:'Unbounded';font-size:28px;font-weight:700;color:var(--violet);margin-bottom:20px}
+.tariff-list{list-style:none;display:grid;gap:11px;align-content:start;font-size:14px;color:var(--ink-soft);margin-bottom:28px;flex:1}
+.tariff-list li{display:flex;gap:9px;align-items:flex-start}
+.tariff-list li::before{content:"✓";color:var(--gold);flex-shrink:0;font-weight:700}
+.tariff-select{width:100%;justify-content:center;border:0;cursor:pointer}
+.tariff.is-selected .tariff-select{background:linear-gradient(120deg,var(--gold),#c98f2e)}
+@media(max-width:860px){.tariffs{grid-template-columns:1fr}}
+
+/* ===== lead form panel ===== */
+.form-panel-wrap{max-width:640px;margin:0 auto;opacity:0;transition:opacity .5s var(--ease)}
+.form-panel-wrap.visible{opacity:1}
+.selected-tariff{font-size:14px;font-weight:600;color:var(--violet);margin-bottom:22px}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-soft);margin:18px 0 20px;cursor:pointer}
+.consent input{margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:var(--violet)}
+.contact-line{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.contact-line a{color:var(--violet);font-weight:600}
+.socials-inline{display:flex;gap:12px;flex-wrap:wrap}
+.socials-inline a{color:var(--ink-soft);font-weight:600;text-decoration:underline;text-decoration-color:var(--line);transition:color .25s}
+.socials-inline a:hover{color:var(--violet)}
+@media(max-width:900px){.form-panel-wrap{max-width:none}}
+
+/* ===== faq ===== */
+.faq{display:grid;gap:14px;max-width:800px}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:22px 26px;transition:box-shadow .3s var(--ease),border-color .3s var(--ease)}
+.faq details[open]{box-shadow:var(--shadow);border-color:var(--lavender)}
+.faq summary{cursor:pointer;list-style:none;font-family:'Onest';font-weight:700;font-size:16px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:'Unbounded';font-size:20px;color:var(--violet);flex-shrink:0;transition:transform .3s var(--ease)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{font-size:14.5px;color:var(--ink-soft);margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+@media(max-width:700px){.faq details{padding:18px 20px}}
 
 /* ===== footer ===== */
 footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13.5px}
+.footer-contact{margin-top:10px}
+.footer-contact a{color:var(--violet);font-weight:600}
+.footer-socials{display:flex;justify-content:center;gap:16px;margin-top:10px;flex-wrap:wrap}
+.footer-socials a{color:var(--ink-soft);font-weight:600;text-decoration:underline;text-decoration-color:var(--line);transition:color .25s}
+.footer-socials a:hover{color:var(--violet)}
 
 /* ===== mobile sticky cta ===== */
 .sticky-cta{position:fixed;left:14px;right:14px;bottom:14px;z-index:60;display:none;background:var(--violet);color:#fff;border-radius:100px;padding:16px;text-align:center;font-weight:700;font-size:15.5px;box-shadow:0 14px 34px -10px rgba(93,42,91,.6);transform:translateY(120px);transition:transform .4s var(--ease)}
@@ -278,6 +322,7 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
       <a href="#steps">Методика</a>
       <a href="#format">Формат</a>
       <a href="#author">Автор</a>
+      <a href="#join">Тарифы</a>
     </nav>
     <a class="nav-cta" href="#join">Занять место</a>
   </div>
@@ -301,7 +346,7 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
         <span class="fact">доступ <b>навсегда</b></span>
       </div>
       <div class="hero-actions blur-in d4">
-        <a class="btn-primary" href="#join">Участвовать за 777 ₽</a>
+        <a class="btn-primary" href="#join">Участвовать — от 777 ₽</a>
         <a class="btn-ghost" href="#format">Посмотреть формат
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 4v16m0 0l-6-6m6 6l6-6"/></svg>
         </a>
@@ -309,8 +354,8 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
       <p class="hero-note blur-in d4">После заявки вы перейдёте к оплате через Prodamus.</p>
     </div>
     <aside class="hero-card blur-in d3">
-      <div class="price-big">777 <small>₽</small></div>
-      <h3>доступ к урокам навсегда</h3>
+      <div class="price-big">от 777 <small>₽</small></div>
+      <h3>3 тарифа участия — выберите свою глубину</h3>
       <ul>
         <li>Короткий урок и одна практика в день</li>
         <li>Методика для разных типов восприятия</li>
@@ -351,6 +396,34 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
         <div class="pain-ico">⚖️</div>
         <h3>Стресс неопределённости</h3>
         <p>Сложно выбирать в отношениях, карьере, проектах и личных решениях, потому что любое действие кажется рискованным.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section id="result">
+  <div class="shell">
+    <div class="sec-head reveal">
+      <p class="sec-eyebrow">Результат</p>
+      <h2>Жизнь в состоянии ясности начинается с одного короткого ежедневного действия</h2>
+      <p>За 13 дней вы не получаете ещё одну сложную систему. Вы настраиваете практику, которая помогает остановиться, сформулировать вопрос, услышать ответ и сделать маленький шаг.</p>
+    </div>
+    <div class="cards-3">
+      <article class="pain reveal">
+        <div class="pain-ico">🧭</div>
+        <h3>Уверенность в решениях</h3>
+        <p>Меньше паники, больше опоры на внутреннее знание и реальные действия.</p>
+      </article>
+      <article class="pain reveal" style="transition-delay:.1s">
+        <div class="pain-ico">💡</div>
+        <h3>Ответы в рутине</h3>
+        <p>Вы начинаете замечать подсказки в обычных ситуациях, а не только в кризисе.</p>
+      </article>
+      <article class="pain reveal" style="transition-delay:.2s">
+        <div class="pain-ico">🕊️</div>
+        <h3>Свобода от чужих ожиданий</h3>
+        <p>Проще отделять свою правду от навязанных страхов и сценариев.</p>
       </article>
     </div>
   </div>
@@ -481,25 +554,80 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
   </div>
 </section>
 
-<!-- CTA + FORM -->
+<!-- TARIFFS + FORM -->
 <section id="join" style="padding-top:20px">
   <div class="shell">
-    <div class="cta-wrap reveal">
-      <div class="cta-grid">
-        <div class="cta-info">
-          <p class="sec-eyebrow" style="color:var(--gold)">Старт участия</p>
-          <h2>Ваш разум создан для ясности</h2>
-          <p>Оставьте контакты, чтобы закрепить место и перейти к оплате. После отправки заявки откроется платёжная страница Prodamus.</p>
-          <div class="cta-price">777 ₽ <small>за участие</small></div>
-          <ul class="cta-list">
-            <li>Доступ к урокам в записи навсегда</li>
-            <li>Практики-активации на каждый день</li>
-            <li>Рекомендации для вашего типа восприятия</li>
-            <li>Оплата через Prodamus после заявки</li>
-          </ul>
-        </div>
-        <form class="form-card" id="lead-form" novalidate>
-          <h3>Занять место</h3>
+    <div class="sec-head center reveal">
+      <p class="sec-eyebrow">Тарифы участия</p>
+      <h2>Выберите глубину сопровождения</h2>
+      <p>После выбора тарифа откроется анкета. После отправки анкеты страница переведёт вас на оплату выбранного тарифа.</p>
+    </div>
+
+    <div class="tariffs" role="list" aria-label="Тарифы марафона">
+      <article class="tariff reveal" data-tariff-card="solo" role="listitem">
+        <h3>Тариф 1. «Самостоятельный»</h3>
+        <p class="tariff-subtitle">Базовый фокус</p>
+        <p class="tariff-desc">Для тех, кто хочет в своём темпе настроить внутренний компас, очистить мышление от шума и получить работающие духовные инструменты.</p>
+        <div class="tariff-price">777 руб.</div>
+        <ul class="tariff-list">
+          <li>13 ёмких видеоуроков по 7-10 минут: только концентрированная суть и глубина для легкого внедрения в рутину.</li>
+          <li>Рекомендации для вашего типа восприятия: Слышащий, Видящий, Чувствующий, Знающий.</li>
+          <li>Ежедневные практики-активации и понятный фокус на каждый день марафона.</li>
+          <li>Персональные рекомендации и ключи для развития вашей духовной идентичности.</li>
+          <li>Доступ к материалам в записи навсегда.</li>
+        </ul>
+        <button class="btn-primary tariff-select" type="button" data-tariff-select="solo" aria-pressed="false">Выбрать тариф</button>
+      </article>
+
+      <article class="tariff featured reveal" data-tariff-card="guide" role="listitem" style="transition-delay:.1s">
+        <span class="tariff-badge">Выбор большинства</span>
+        <h3>Тариф 2. «Проводник»</h3>
+        <p class="tariff-subtitle">С куратором-тренером</p>
+        <p class="tariff-desc">Для тех, кому важна качественная обратная связь, безопасная среда для практики и поддержка на пути освоения новых духовных навыков.</p>
+        <div class="tariff-price">15 000 руб.</div>
+        <ul class="tariff-list">
+          <li>Все наполнение тарифа «Самостоятельный»: 13 уроков, тест, активации и вечный доступ.</li>
+          <li>4 персональные сессии в течение 30 дней с тренерами, ближайшими учениками Екатерины Манохиной.</li>
+          <li>Тест: какой канал восприятия именно у вас.</li>
+          <li>Разбор результатов теста и точная сонастройка ваших каналов восприятия.</li>
+          <li>Индивидуальная практика тет-а-тет с тренером для тренировки чувств, образов, мыслей и внутреннего знания.</li>
+          <li>Помощь в преодолении барьеров, страхов и ложных ограничивающих убеждений.</li>
+        </ul>
+        <button class="btn-primary tariff-select" type="button" data-tariff-select="guide" aria-pressed="false">Выбрать тариф</button>
+      </article>
+
+      <article class="tariff reveal" data-tariff-card="vip" role="listitem" style="transition-delay:.2s">
+        <h3>Тариф 3. «Наставничество»</h3>
+        <p class="tariff-subtitle">VIP с Екатериной Манохиной</p>
+        <p class="tariff-desc">Глубокая персональная работа и сопровождение для лидеров, предпринимателей и создателей, которым нужна абсолютная ясность в стратегических вопросах, бизнесе и жизни.</p>
+        <div class="tariff-price">30 000 руб.</div>
+        <ul class="tariff-list">
+          <li>Все наполнение тарифа «Самостоятельный»: вечный доступ к урокам и практикам.</li>
+          <li>4 персональные часовые сессии в течение месяца лично с Екатериной Манохиной.</li>
+          <li>Индивидуальное сопровождение в чате на протяжении 30 дней.</li>
+          <li>Распаковка предназначения через духовную архитектуру.</li>
+          <li>Определение вашей уникальной проявленности, сильных сторон и масштаба.</li>
+          <li>Соединение коммерческих проектов с духовными ценностями без внутреннего конфликта.</li>
+          <li>Очищение бизнес-процессов и жизни от мыслительного шума.</li>
+          <li>Выход из неопределенности, работа со страхами, тревожностью лидера и синдромом самозванца.</li>
+          <li>Пошаговый план действий на ближайшие 6-12 месяцев.</li>
+          <li>Проработка скрытых обид, боли и выгорания, которые блокируют чистый поток решений.</li>
+        </ul>
+        <button class="btn-primary tariff-select" type="button" data-tariff-select="vip" aria-pressed="false">Выбрать тариф</button>
+      </article>
+    </div>
+
+    <div class="form-panel-wrap" id="lead-form-panel" hidden>
+      <div class="form-card">
+        <h3>Заполните анкету</h3>
+        <p class="selected-tariff" id="selected-tariff-text">Выбран тариф.</p>
+        <form id="lead-form" novalidate>
+          <input type="hidden" name="product" value="Марафон ясности мышления">
+          <input type="hidden" name="source_page" value="">
+          <input type="hidden" name="tariff_id" value="">
+          <input type="hidden" name="tariff_name" value="">
+          <input type="hidden" name="tariff_price" value="">
+          <input type="hidden" name="payment_url" value="">
           <div class="field">
             <label for="f-name">Имя</label>
             <input id="f-name" name="name" type="text" required autocomplete="name" placeholder="Как к вам обращаться">
@@ -512,18 +640,62 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
             <label for="f-email">Email</label>
             <input id="f-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
           </div>
-          <div class="field">
-            <label for="f-pay">Формат оплаты</label>
-            <select id="f-pay" name="payment_format">
-              <option value="Полная оплата">Полная оплата</option>
-              <option value="Рассрочка или оплата частями">Рассрочка или оплата частями</option>
-            </select>
-          </div>
-          <button class="btn-primary" type="submit">Перейти к оплате</button>
-          <p class="form-status" id="form-status" role="status"></p>
-          <p class="form-legal">Отправляя форму, вы соглашаетесь с обработкой персональных данных.</p>
+          <label class="consent">
+            <input type="checkbox" name="consent" value="yes" required>
+            <span>Согласна на обработку данных, получение сообщения по заявке, политику конфиденциальности и условия оферты.</span>
+          </label>
+          <button class="btn-primary" type="submit">Отправить анкету и перейти к оплате</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
         </form>
+        <div class="contact-line">
+          <span>Администратор: <a href="tel:+79787847718">+7 978 784-77-18</a> (Telegram, WhatsApp, МАХ)</span>
+          <span class="socials-inline" aria-label="Социальные сети">
+            <a href="https://vk.com/prograni_ru" target="_blank" rel="noopener">ВК</a>
+            <a href="https://www.youtube.com/@prograni-ru" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://t.me/prograni_ru" target="_blank" rel="noopener">Телеграм</a>
+            <a href="https://rutube.ru/channel/44155441/" target="_blank" rel="noopener">RuTube</a>
+          </span>
+        </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:rgba(255,255,255,.55)">
+  <div class="shell">
+    <div class="sec-head center reveal">
+      <p class="sec-eyebrow">Вопросы</p>
+      <h2>Перед участием</h2>
+    </div>
+    <div class="faq">
+      <details class="reveal" open>
+        <summary>Мне подойдёт, если я никогда не проходила духовные практики?</summary>
+        <p>Да. Уроки короткие и построены через простые действия: остановиться, задать вопрос, заметить ответ, записать и сделать один шаг.</p>
+      </details>
+      <details class="reveal" style="transition-delay:.06s">
+        <summary>Нужно быть онлайн в конкретное время?</summary>
+        <p>Нет. Формат рассчитан на записи, поэтому вы можете проходить марафон утром, в дороге, в обеденный перерыв или вечером.</p>
+      </details>
+      <details class="reveal" style="transition-delay:.12s">
+        <summary>Что будет после заявки?</summary>
+        <p>Сначала выберите тариф, затем заполните анкету. После отправки формы страница переведёт вас на оплату выбранного тарифа.</p>
+      </details>
+      <details class="reveal" style="transition-delay:.18s">
+        <summary>Почему 13 дней?</summary>
+        <p>Это достаточно короткий срок, чтобы не перегореть, и достаточно длинный, чтобы новая практика начала становиться привычкой.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section style="padding-top:20px">
+  <div class="shell">
+    <div class="cta-wrap cta-final reveal">
+      <h2>Перестаньте сомневаться в каждом решении</h2>
+      <p>Настройте внутренний фокус на оставшийся год всего за 13 дней короткой практики.</p>
+      <a class="btn-primary" href="#join">Выбрать тариф</a>
     </div>
   </div>
 </section>
@@ -531,10 +703,19 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
 </main>
 
 <footer>
-  <div class="shell">Марафон «Ясность мышления» · Екатерина Манохина · <span id="year"></span></div>
+  <div class="shell">
+    <div>Марафон «Ясность мышления» · Екатерина Манохина · <span id="year"></span></div>
+    <div class="footer-contact">Администратор: <a href="tel:+79787847718">+7 978 784-77-18</a> (Telegram, WhatsApp, МАХ)</div>
+    <div class="footer-socials" aria-label="Социальные сети">
+      <a href="https://vk.com/prograni_ru" target="_blank" rel="noopener">ВК</a>
+      <a href="https://www.youtube.com/@prograni-ru" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://t.me/prograni_ru" target="_blank" rel="noopener">Телеграм</a>
+      <a href="https://rutube.ru/channel/44155441/" target="_blank" rel="noopener">RuTube</a>
+    </div>
+  </div>
 </footer>
 
-<a class="sticky-cta" id="sticky-cta" href="#join">Занять место — 777 ₽</a>
+<a class="sticky-cta" id="sticky-cta" href="#join">Занять место — от 777 ₽</a>
 
 <div class="cookie" id="cookie" role="dialog" aria-label="Использование cookie">
   <p><b>Мы используем cookie.</b> Они помогают сайту работать корректно и анализировать посещаемость. Оставаясь на сайте, вы соглашаетесь с обработкой файлов cookie.</p>
@@ -548,8 +729,13 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
 (function(){
   "use strict";
   var CONFIG = {
-    PAYMENT_URL: "https://your-prodamus-payment-link.example",
-    LEADS_ENDPOINT: ""
+    LEADS_ENDPOINT: "lead.php"
+  };
+
+  var TARIFFS = {
+    solo:  { title: "Тариф 1. «Самостоятельный»", price: "777 руб.",    paymentUrl: "https://payform.ru/h6bZvrp/" },
+    guide: { title: "Тариф 2. «Проводник»",      price: "15 000 руб.", paymentUrl: "https://payform.ru/nqbZvuV/" },
+    vip:   { title: "Тариф 3. «Наставничество»", price: "30 000 руб.", paymentUrl: "https://payform.ru/s0bZvxa/" }
   };
 
   document.getElementById("year").textContent = new Date().getFullYear();
@@ -609,55 +795,87 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
     catch(e){ return ""; }
   }
 
-  // form
+  // tariffs + form
+  var formPanel = document.getElementById("lead-form-panel");
+  var selectedTariffText = document.getElementById("selected-tariff-text");
   var form = document.getElementById("lead-form");
   var status = document.getElementById("form-status");
-  form.addEventListener("submit", function(ev){
+  var selectedTariff = null;
+
+  function setInputValue(name, value){
+    var input = form.querySelector('input[name="' + name + '"]');
+    if (input) input.value = value;
+  }
+  if (form) setInputValue("source_page", window.location.href);
+
+  function selectTariff(tariffId){
+    var tariff = TARIFFS[tariffId];
+    if (!tariff) return;
+    selectedTariff = tariff;
+    setInputValue("tariff_id", tariffId);
+    setInputValue("tariff_name", tariff.title);
+    setInputValue("tariff_price", tariff.price);
+    setInputValue("payment_url", tariff.paymentUrl);
+    document.querySelectorAll("[data-tariff-card]").forEach(function(card){
+      card.classList.toggle("is-selected", card.getAttribute("data-tariff-card") === tariffId);
+    });
+    document.querySelectorAll("[data-tariff-select]").forEach(function(button){
+      var isSelected = button.getAttribute("data-tariff-select") === tariffId;
+      button.setAttribute("aria-pressed", isSelected ? "true" : "false");
+      button.textContent = isSelected ? "Тариф выбран" : "Выбрать тариф";
+    });
+    if (selectedTariffText) {
+      selectedTariffText.textContent = "Выбран: " + tariff.title + " — " + tariff.price;
+    }
+    status.textContent = "";
+    formPanel.hidden = false;
+    window.requestAnimationFrame(function(){ formPanel.classList.add("visible"); });
+    formPanel.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  document.querySelectorAll("[data-tariff-select]").forEach(function(button){
+    button.addEventListener("click", function(){
+      selectTariff(button.getAttribute("data-tariff-select"));
+    });
+  });
+
+  if (form) form.addEventListener("submit", function(ev){
     ev.preventDefault();
-    var name = form.name.value.trim();
-    var phone = form.phone.value.trim();
-    var email = form.email.value.trim();
-    if (!name || !phone || !email) {
-      status.textContent = "Заполните имя, контакт и email.";
+    if (!selectedTariff) {
+      status.textContent = "Сначала выберите тариф.";
       return;
     }
-    var payload = new FormData();
-    payload.append("product", "Марафон ясности мышления");
-    payload.append("name", name);
-    payload.append("phone", phone);
-    payload.append("email", email);
-    payload.append("payment_format", form.payment_format.value);
-    payload.append("source_page", window.location.href);
-    payload.append("utm_source", utm("utm_source"));
-    payload.append("utm_campaign", utm("utm_campaign"));
-    payload.append("utm_content", utm("utm_content"));
+    if (!form.reportValidity()) {
+      status.textContent = "Проверьте поля формы.";
+      return;
+    }
 
-    var btn = form.querySelector("button");
-    btn.disabled = true;
-    status.textContent = "Отправляем заявку…";
+    var btn = form.querySelector('button[type="submit"]');
+    var payload = new FormData(form);
+    payload.set("source_page", window.location.href);
+    payload.set("utm_source", utm("utm_source"));
+    payload.set("utm_campaign", utm("utm_campaign"));
+    payload.set("utm_content", utm("utm_content"));
 
-    var redirect = function(){
-      if (CONFIG.PAYMENT_URL && CONFIG.PAYMENT_URL.indexOf("your-prodamus-payment-link") === -1) {
-        window.location.href = CONFIG.PAYMENT_URL;
-      } else {
-        status.textContent = "Заявка отправлена. Добавьте ссылку Prodamus в CONFIG.PAYMENT_URL.";
-        btn.disabled = false;
-      }
-    };
+    var paymentUrl = selectedTariff.paymentUrl;
+    var redirectToPayment = function(){ window.location.href = paymentUrl; };
 
     if (!CONFIG.LEADS_ENDPOINT) {
-      status.textContent = "Тест формы прошёл. Добавьте URL Google Apps Script в CONFIG.LEADS_ENDPOINT.";
-      btn.disabled = false;
+      status.textContent = "Анкета заполнена. Перенаправляем к оплате…";
+      window.setTimeout(redirectToPayment, 700);
       return;
     }
+
+    btn.disabled = true;
+    status.textContent = "Отправляем анкету…";
 
     fetch(CONFIG.LEADS_ENDPOINT, { method:"POST", mode:"no-cors", body:payload })
       .then(function(){
-        status.textContent = "Заявка отправлена. Перенаправляем к оплате…";
-        window.setTimeout(redirect, 700);
+        status.textContent = "Анкета отправлена. Перенаправляем к оплате…";
+        window.setTimeout(redirectToPayment, 700);
       })
       .catch(function(){
-        status.textContent = "Не удалось отправить заявку. Напишите нам в Telegram.";
+        status.textContent = "Не удалось отправить анкету. Напишите администратору.";
         btn.disabled = false;
       });
   });
