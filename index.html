@@ -283,6 +283,16 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
 .footer-credit{margin-top:14px;font-size:12px;opacity:.65}
 .footer-credit a{color:var(--violet);font-weight:600}
 
+/* ===== paid thanks modal ===== */
+.paid-overlay{position:fixed;inset:0;background:rgba(43,26,42,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:120;opacity:0;transition:opacity .4s var(--ease)}
+.paid-overlay.show{opacity:1}
+.paid-card{background:#fff;border-radius:var(--r-lg);max-width:420px;width:100%;padding:38px 30px;text-align:center;box-shadow:0 30px 80px -20px rgba(43,26,42,.45);transform:translateY(14px) scale(.97);transition:transform .4s var(--ease)}
+.paid-overlay.show .paid-card{transform:none}
+.paid-ico{width:64px;height:64px;border-radius:50%;background:linear-gradient(140deg,var(--lavender),var(--violet));display:grid;place-items:center;font-size:28px;color:#fff;margin:0 auto 18px}
+.paid-card h3{font-family:'Unbounded';font-size:20px;margin-bottom:12px}
+.paid-card p{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:22px}
+.paid-card p a{color:var(--violet);font-weight:600}
+
 /* ===== mobile sticky cta ===== */
 .sticky-cta{position:fixed;left:14px;right:14px;bottom:14px;z-index:60;display:none;background:var(--violet);color:#fff;border-radius:100px;padding:16px;text-align:center;font-weight:700;font-size:15.5px;box-shadow:0 14px 34px -10px rgba(93,42,91,.6);transform:translateY(120px);transition:transform .4s var(--ease)}
 .sticky-cta.show{transform:none}
@@ -765,6 +775,26 @@ footer{padding:44px 0 110px;text-align:center;color:var(--ink-soft);font-size:13
     consentSet("declined");
     cookieBox.classList.remove("show");
   });
+
+  // «спасибо» после оплаты: Продамус возвращает на ?paid=1 (Success URL)
+  if (new URLSearchParams(window.location.search).get("paid") === "1") {
+    var overlay = document.createElement("div");
+    overlay.className = "paid-overlay";
+    overlay.innerHTML =
+      '<div class="paid-card" role="dialog" aria-label="Оплата прошла">' +
+        '<div class="paid-ico">✓</div>' +
+        '<h3>Оплата прошла успешно!</h3>' +
+        '<p>Спасибо! Доступ к марафону и все детали придут на контакты, указанные при оплате. Если ничего не пришло в течение часа — напишите администратору: <a href="tel:+79787847718">+7 978 784-77-18</a> (Telegram, WhatsApp, МАХ).</p>' +
+        '<button class="btn-primary" type="button">Хорошо</button>' +
+      '</div>';
+    document.body.appendChild(overlay);
+    window.requestAnimationFrame(function(){ overlay.classList.add("show"); });
+    overlay.querySelector("button").addEventListener("click", function(){
+      overlay.classList.remove("show");
+      window.setTimeout(function(){ overlay.remove(); }, 400);
+    });
+    window.history.replaceState({}, "", window.location.pathname);
+  }
 
   // topbar shadow
   var topbar = document.getElementById("topbar");
