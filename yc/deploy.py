@@ -126,6 +126,19 @@ def zip_source(directory: Path) -> bytes:
     return buf.getvalue()
 
 
+def _secret(path: str, key: str) -> str:
+    """Файл секрета: либо голое значение, либо строки `key=value` → значение `key`.
+    Раньше в env шёл весь файл целиком: PRODAMUS_SECRET с `secret_key=` (подпись
+    не сходилась никогда), TG_TOKEN с `token=...\\nchat_id=...` (URL Telegram битый)."""
+    raw = Path(path).read_text().strip()
+    pairs = dict(line.split("=", 1) for line in raw.splitlines() if "=" in line)
+    if not pairs:
+        return raw
+    if key not in pairs:
+        raise KeyError(f"{path}: нет ключа {key}")
+    return pairs[key].strip()
+
+
 def load_env_values() -> dict[str, str]:
     """Читает секреты для переменных окружения функций.
 
@@ -133,9 +146,9 @@ def load_env_values() -> dict[str, str]:
     к API Яндекса напрямую.
     """
     return {
-        "TG_TOKEN": Path("/root/.secrets/prograni_leads_bot.txt").read_text().strip(),
+        "TG_TOKEN": _secret("/root/.secrets/prograni_leads_bot.txt", "token"),
         "TG_CHAT_ID": Path("/root/.secrets/katipa_leads_chat_id.txt").read_text().strip(),
-        "PRODAMUS_SECRET": Path("/root/.secrets/prodamus.txt").read_text().strip(),
+        "PRODAMUS_SECRET": _secret("/root/.secrets/prodamus.txt", "secret_key"),
     }
 
 

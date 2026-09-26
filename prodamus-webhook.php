@@ -23,7 +23,7 @@ function prodamus_sign(array $data, string $key): string
         }
     };
     $sortRecursive($data);
-    return hash_hmac('sha256', json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), $key);
+    return hash_hmac('sha256', json_encode($data, JSON_UNESCAPED_UNICODE), $key);
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

@@ -34,11 +34,12 @@ PAYLOAD: dict[str, object] = {
     "order_id": "1042",
     "order_num": "A-1042",
     "domain": "payform.ru",
+    # «/» обязателен: официальный Hmac.php экранирует его (\\/), без слэша тест этого не ловит
+    "payment_status_description": "Успешная оплата / тест",
     "sum": "49900.00",
     "customer_phone": "+79991234567",
     "customer_email": "ivan@example.com",
     "payment_status": "success",
-    "payment_status_description": "Успешная оплата",
     "products": {
         "0": {
             "name": "Тариф VIP — Ясность мышления",

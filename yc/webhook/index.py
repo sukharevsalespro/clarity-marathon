@@ -29,11 +29,13 @@ import html
 import json
 import logging
 import os
+import http.client
+import socket
+import ssl
 from datetime import datetime
 from email import message_from_bytes
 from typing import Any
 from urllib.parse import parse_qsl, urlencode
-from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
 logger = logging.getLogger("webhook")
@@ -173,7 +175,8 @@ def prodamus_sign(data: dict[str, Any], key: str) -> str:
     canonical = _stringify_leaves(canonical)
     canonical = _sort_recursive(canonical)
     canonical = _to_jsonable(canonical)
-    payload = json.dumps(canonical, ensure_ascii=False, separators=(",", ":"))
+    # официальный Hmac.php Продамуса: json_encode(JSON_UNESCAPED_UNICODE) — «/» экранируется как «\\/»
+    payload = json.dumps(canonical, ensure_ascii=False, separators=(",", ":")).replace("/", "\\/")
     return hmac.new(key.encode("utf-8"), payload.encode("utf-8"), hashlib.sha256).hexdigest()
 
 
@@ -218,6 +221,36 @@ def _build_message(status: str, sum_: str, order_num: str, product: str, phone: 
     return "\n".join(lines)
 
 
+# Грабля YC→Telegram (БЗ ryzhiy-marketolog): из egress функции api.telegram.org
+# резолвится в недоступные IP → TCP timeout → функция падала 504 по таймауту.
+# Пиннинг IP с SNI/проверкой сертификата по host + фолбэк на обычный резолв (как в ryzhiy-lead).
+_TELEGRAM_HOST = "api.telegram.org"
+_TELEGRAM_PINNED_IP = "149.154.167.220"
+
+
+class _PinnedHTTPSConnection(http.client.HTTPSConnection):
+    def __init__(self, ip: str, host: str, timeout: float) -> None:
+        super().__init__(host, 443, timeout=timeout)
+        self._pinned_ip = ip
+
+    def connect(self) -> None:
+        sock = socket.create_connection((self._pinned_ip, self.port), self.timeout)
+        self.sock = (self._context or ssl.create_default_context()).wrap_socket(sock, server_hostname=self.host)
+
+
+def _post_telegram(path: str, body: bytes, pin_ip: str | None) -> None:
+    conn = (_PinnedHTTPSConnection(pin_ip, _TELEGRAM_HOST, 4) if pin_ip
+            else http.client.HTTPSConnection(_TELEGRAM_HOST, timeout=4))
+    try:
+        conn.request("POST", path, body=body, headers={"Content-Type": "application/x-www-form-urlencoded"})
+        response = conn.getresponse()
+        result = json.loads(response.read() or b"{}")
+        if response.status != 200 or result.get("ok") is not True:
+            raise RuntimeError(f"telegram HTTP {response.status}")
+    finally:
+        conn.close()
+
+
 def _send_telegram(text: str) -> None:
     token = os.environ["TG_TOKEN"]
     chat_id = os.environ["TG_CHAT_ID"]
@@ -227,12 +260,14 @@ def _send_telegram(text: str) -> None:
         "text": text,
         "disable_web_page_preview": "true",
     }).encode()
-    req = Request(f"https://api.telegram.org/bot{token}/sendMessage", data=params, method="POST")
-    try:
-        with urlopen(req, timeout=10):
-            pass
-    except Exception:  # noqa: BLE001 — сбой Telegram не должен ронять ответ Продамусу
-        logger.exception("telegram sendMessage failed")
+    for pin_ip in (_TELEGRAM_PINNED_IP, None):
+        try:
+            _post_telegram(f"/bot{token}/sendMessage", params, pin_ip)
+            logger.info(json.dumps({"event": "telegram", "ok": True, "pinned": bool(pin_ip)}))
+            return
+        except Exception as exc:  # noqa: BLE001 — сбой Telegram не должен ронять ответ Продамусу
+            # без logger.exception: трейс urllib/http.client содержит URL с токеном
+            logger.warning(json.dumps({"event": "telegram", "ok": False, "pinned": bool(pin_ip), "error": type(exc).__name__}))
 
 
 def _text_response(status_code: int, body: str) -> dict[str, Any]:
