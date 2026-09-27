@@ -184,6 +184,43 @@ def _esc(value: str) -> str:
     return html.escape(value, quote=True)
 
 
+# Общий аккаунт Продамуса valentina-promarketing (проверено 27.09.2026, БЗ
+# ryzhiy-marketolog.md) — оплаты сайта Валентины идут в тот же вебхук, что и
+# katipa. ryzhiy-pay отличает её товары этими же тремя подстроками; здесь —
+# наоборот, ИСКЛЮЧЕНИЕ (не белый список katipa: сменится название товара
+# марафона — её оплаты перестанут уходить в группу).
+VALENTINA_PRODUCT_MARKERS = ("нетворкинг", "личный бренд", "маркетинг доверия")
+
+
+def _product_names(data: dict[str, Any]) -> list[str] | None:
+    """Названия товаров заказа. None — форма products неизвестна/не список
+    словарей (тогда не матчим вслепую, см. _is_valentina_only_order)."""
+    products = data.get("products")
+    if isinstance(products, dict):
+        products = list(products.values())
+    if not isinstance(products, list) or not products:
+        return None
+    names: list[str] = []
+    for item in products:
+        if not isinstance(item, dict):
+            return None
+        names.append(str(item.get("name", "")))
+    return names
+
+
+def _is_valentina_only_order(data: dict[str, Any]) -> bool:
+    """True — только если ВСЕ товары заказа содержат один из VALENTINA_PRODUCT_MARKERS
+    (регистронезависимо). Пустой/неизвестный/смешанный products -> False (безопасный
+    дефолт: отправляем в группу, как раньше)."""
+    names = _product_names(data)
+    if not names:
+        return False
+    return all(
+        any(marker in name.lower() for marker in VALENTINA_PRODUCT_MARKERS)
+        for name in names
+    )
+
+
 def _first_product_name(data: dict[str, Any]) -> str:
     products = data.get("products")
     first: Any = None
@@ -287,6 +324,11 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     if sign == "" or not hmac.compare_digest(expected, sign):
         return _text_response(403, "bad sign")
 
+    if _is_valentina_only_order(data):
+        order_num = _get_field(data, "order_num") or _get_field(data, "order_id")
+        logger.info(json.dumps({"event": "skip_valentina_product", "order": order_num}, ensure_ascii=False))
+        return _text_response(200, "success")
+
     status = _get_field(data, "payment_status")
     sum_ = _get_field(data, "sum")
     order_num = _get_field(data, "order_num") or _get_field(data, "order_id")
@@ -302,6 +344,30 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     _send_telegram(_build_message(status, sum_, order_num, product, phone, email))
 
     return _text_response(200, "success")
+
+
+def _test_valentina_filter() -> None:
+    """TDD: unit-тест фильтра товаров Валентины (VALENTINA_PRODUCT_MARKERS,
+    _is_valentina_only_order) — до реализации функции ниже должен падать NameError."""
+    valentina_order = {"products": [{"name": "Онлайн нетворкинг. Тариф - Стандарт, октябрь 2026."}]}
+    assert _is_valentina_only_order(valentina_order) is True
+
+    katipa_order = {"products": [{"name": "тариф «Самостоятельный»"}]}
+    assert _is_valentina_only_order(katipa_order) is False
+
+    mixed_order = {"products": [
+        {"name": "тариф «Самостоятельный»"},
+        {"name": "Доступ к вебинару «Личный бренд»"},
+    ]}
+    assert _is_valentina_only_order(mixed_order) is False
+
+    empty_order: dict[str, Any] = {"products": []}
+    assert _is_valentina_only_order(empty_order) is False
+
+    no_products_order: dict[str, Any] = {}
+    assert _is_valentina_only_order(no_products_order) is False
+
+    print("webhook/index.py filter self-check: OK")
 
 
 def _demo() -> None:
@@ -347,4 +413,5 @@ def _demo() -> None:
 
 
 if __name__ == "__main__":
+    _test_valentina_filter()
     _demo()
